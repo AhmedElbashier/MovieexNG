@@ -1,0 +1,72 @@
+<div class="listing">
+    <div class="listing__head">
+        <h3 class="listing__title" *ngIf="!searchRes">In System Plays</h3>
+        <h3 class="listing__title" *ngIf="searchRes">Search Plays</h3>
+    </div>
+    <form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control searchdesign" placeholder="Search for in system plays..." [(ngModel)]="searchStr"
+                            name="searchStr" (keyup.enter)="searchplays()">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btnDesign" type="button" (click)="searchplays()">Go!</button>
+                        </span>
+                    </div>
+                    <button [routerLink]="['/movieex/wp-admin/admin/plays/add']" type="button" class="button button--icon trailer" [disabled]="disable">
+                        <span class="txt" id="add">Add New Play To System Database</span>
+                    </button>
+                </div>
+            </div>
+        </div>    
+    </form>
+
+    <ng-container *ngIf="searchRes">
+        <app-skeleton *ngIf="loader"></app-skeleton>
+        <div class="row" *ngIf="!loader">
+            <div class="col-md-2 listing__items" *ngFor="let play of searchRes | slice:0:18">
+                <div [routerLink]="['/movieex/wp-admin/admin/plays/', play.id]">
+                    <div class="listing-item-style">
+                        <div class="overlay">
+                            <div class="hover"><i class="material-icons">play_arrow</i> SEE DETAILS</div>
+                        </div>
+                        <img *ngIf="play?.poster_path" src="{{play?.backdrop_path}}"
+                            [alt]="play.title ? play.title : play.title">
+                        <img *ngIf="!play?.backdrop_path" src="assets/images/play.svg"
+                            [alt]="play.title ? play.title : play.title ">
+                        <h6>{{ play?.title }}</h6>
+                        <p class="rate"><i class="material-icons">star</i><span>{{play?.vote_average}}</span> /10</p>
+                        <p class="year"><span>{{play?.release_date | date: 'yyyy'}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <app-skeleton *ngIf="loader"></app-skeleton>
+    <div class="row" *ngIf="!loader">
+        <div class="col-md-2 listing__items" *ngFor="let play of Plays | slice:0:18">
+            <div [routerLink]="['/movieex/wp-admin/admin/plays/', play.id]">
+                <div class="listing-item-style">
+                    <div class="overlay">
+                        <div class="hover"><i class="material-icons"></i> SEE DETAILS</div>
+                    </div>
+                    <img src="{{play?.backdrop_path}}"
+                        [alt]="play.title ? play.title : play.name">
+                    <img *ngIf="!play?.backdrop_path" src="assets/images/play.svg"
+                        [alt]="play.title ? play.title : play.name">
+                    <h6>{{ play?.title }}</h6>
+                    <p class="rate"><i class="material-icons">star</i><span>{{play?.vote_average}}</span> /10</p>
+                    <p class="year"><span>{{play?.release_date | date: 'yyyy'}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <mat-paginator [length]="totalResults" [pageSize]="20" (page)="changePage($event)"></mat-paginator>
+    
+</div>
+

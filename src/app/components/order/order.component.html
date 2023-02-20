@@ -1,0 +1,69 @@
+
+
+
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedOrders()" [disabled]="!selectedOrders || !selectedOrders.length"></button>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="orders" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
+        [(selection)]="selectedOrders" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Orders</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                </th>
+                <th pSortableColumn="name">Order Id <p-sortIcon field="name"></p-sortIcon></th>
+                <th>Poster</th>
+                <th pSortableColumn="price">Amount <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="category">Date <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr routerLink="['/order/', order.Id]">
+                <td>
+                    <p-tableCheckbox [value]="order"></p-tableCheckbox>
+                </td>
+                <td>{{order.id}}</td>
+                                         
+                <td><img src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{order?.posterPath}}" style="width: 300px;height: 300px;"></td>
+                <td>{{order.amount | currency:'USD'}}</td>
+                <td>{{order.date}}</td>
+                <td><span [class]="'order-badge status-' + (order.status)">{{order.status}}</span></td>
+                <td>
+                    <button type="button" class="button button--icon trailer"[routerLink]="['/order/', order.id]" >SEE DETAILS & EDIT</button>
+                    <button type="button" class="button button--icon trailer"  (click)="deleteOrder(this.order)">DELETE</button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{orders ? orders.length : 0 }} orders.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+    

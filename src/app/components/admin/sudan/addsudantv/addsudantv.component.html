@@ -1,0 +1,186 @@
+<div class="hero">
+    <div class="backdrop">
+        <div class="lazyloaded">
+            <button class="play" type="button" (click)="openDialogMovie(this.video)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 55 55">
+                    <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="1.5" />
+                    <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z" /></svg>
+            </button>
+            <img class="lazyload image" src="{{poster}}">
+        </div>
+    </div>
+    <div class="pane">
+        <div>
+            <div class="name">{{ title }}</div>
+            <div class="meta">
+
+                <div class="info">
+                    <span class="rate">
+                        <i class="material-icons">star</i><span>{{vote }}</span> /10
+                    </span>
+                    <span>{{released | date: 'yyyy' }}</span>
+                    <span>{{runtime | time  }}</span>
+                </div>
+            </div><div class="desc">{{ storyline }}</div>
+            <button type="button" class="button button--icon trailer" name="poster" (click)="handleChange2()">
+                <span class="txt" id="add">Upload Poster</span>
+
+            </button>                
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-tab-group class="mt-5 mb-5" mat-align-tabs="center" animationDuration="0ms">
+                <mat-tab label="Overview">
+                    <div class="listing-space info__movies">
+                        <div class="left">
+                            <button type="button" class="button button--icon trailer" name="backdrop_path" (click)="handleChange()">
+                                <span class="txt" id="add">Upload Backdrop</span>
+                            </button>       
+                               </div>
+                        <div class="right">
+                            <div class="overview">
+                                <h2 class="title">Tv-Show Title</h2>
+                                <div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control searchdesign"[(ngModel)]="title"
+                                            name="title">
+                                            </div>
+                                </div>
+                                <h2 class="title">Storyline</h2>
+                                <div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control searchdesign"[(ngModel)]="storyline"
+                                            name="storyline" (keyup.enter)="searchMovies()">
+                                            </div>
+                                </div>
+                            </div>
+                            <div class="stats">
+                                <ul class="nolist">
+                                    <li>
+                                        <div class="label">
+                                            Released
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="date" class="form-control searchdesign"[(ngModel)]="release_date"
+                                                    name="release_date" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Runtime
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="runtime"
+                                                    name="runtime" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Budget
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="budget"
+                                                    name="budget" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Revenue
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="revenue"
+                                                    name="revenue" (keyup.enter)="searchMovies()">
+                                                    </div>
+                                                                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="label">
+                                            Genre
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control searchdesign"[(ngModel)]="genre"
+                                                name="genre" (keyup.enter)="searchMovies()">
+                                                </div>                                   
+                                        <div class="comma_" *ngFor="let genre of movie?.genres">
+                                            <a routerLink="/genres/{{genre.id}}/{{genre.name}}">{{ genre?.name }}</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Status
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="status"
+                                                    name="status" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Vote Average
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="vote"
+                                                    name="vote" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Youtube URL
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="video"
+                                                    name="video" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Cast
+                                        </div>
+                                        <div class="value">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="cast"
+                                                    name="cast" (keyup.enter)="searchMovies()">
+                                                    </div>                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="label">
+                                            Language
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control searchdesign"[(ngModel)]="language"
+                                                    name="language" (keyup.enter)="searchMovies()">
+                                                    </div> 
+                                        <div class="comma_" *ngFor="let language of movie?.spoken_languages">
+                                            <a>{{ language?.name }}</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <button type="button" class="button button--icon trailer" (click)="addToSystem(title,storyline,release_date,runtime,revenue,budget,genre,status,img,poster,vote,video,language,cast)">
+                                    <span class="txt" id="add">Add +</span>
+                                </button>
+                            </div>
+                            
+                        </div>
+                     
+                    </div>
+
+                </mat-tab>
+                
+       </mat-tab-group>
+     </div>
+    </div>
+</div>
